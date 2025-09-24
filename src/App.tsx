@@ -21,13 +21,13 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnboarded, setIsOnboarded] = useState(false);
 
-  if (!isAuthenticated) {
-    return <SignIn onSignIn={() => setIsAuthenticated(true)} />;
-  }
+  // if (!isAuthenticated) {
+  //   return <SignIn onSignIn={() => setIsAuthenticated(true)} />;
+  // }
 
-  if (!isOnboarded) {
-    return <OnboardingWizard onComplete={() => setIsOnboarded(true)} />;
-  }
+  // if (!isOnboarded) {
+  //   return <OnboardingWizard onComplete={() => setIsOnboarded(true)} />;
+  // }
 
   return (
     <Router>

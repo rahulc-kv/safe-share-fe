@@ -29,22 +29,22 @@ const users = [
     id: '1',
     name: 'John Doe',
     email: 'john.doe@company.com',
-    role: 'org_admin',
-    department: 'IT',
+    role: 'software_engineer',
+    department: 'Engineering',
     status: 'active',
     lastLogin: '2024-01-20T14:30:00Z',
-    violations: 3,
+    violations: {critical: 3, low: 2},
     avatar: null
   },
   {
     id: '2',
     name: 'Jane Smith',
     email: 'jane.smith@company.com',
-    role: 'compliance_admin',
-    department: 'Legal',
+    role: 'senior_software_engineer',
+    department: 'Engineering',
     status: 'active',
     lastLogin: '2024-01-20T09:15:00Z',
-    violations: 0,
+    violations: {critical: 0, low: 0},
     avatar: null
   },
   {
@@ -55,18 +55,18 @@ const users = [
     department: 'Security',
     status: 'active',
     lastLogin: '2024-01-19T16:45:00Z',
-    violations: 1,
+    violations: {critical: 1, low: 0},
     avatar: null
   },
   {
     id: '4',
     name: 'Alice Brown',
     email: 'alice.brown@company.com',
-    role: 'user',
-    department: 'Sales',
+    role: 'test_engineer',
+    department: 'Security',
     status: 'inactive',
     lastLogin: '2024-01-15T10:20:00Z',
-    violations: 7,
+    violations: {critical: 7, low: 0},
     avatar: null
   },
   {
@@ -77,12 +77,34 @@ const users = [
     department: 'Compliance',
     status: 'active',
     lastLogin: '2024-01-20T11:30:00Z',
-    violations: 0,
+    violations: {critical: 0, low: 0},
     avatar: null
   }
 ];
 
 const roles = [
+  {
+    id: 'software_engineer',
+    name: 'Software Engineer',
+    description: 'Software engineering role',
+    permissions: [
+      'View incidents',
+      'Investigate violations',
+      'Add case notes',
+      'Export incident data',
+      'Dashboard access'
+    ],
+    userCount: 1,
+    color: 'text-blue-600 bg-blue-50 border-blue-200'
+  },  
+  {
+    id: 'senior_software_engineer',
+    name: 'Senior Software Engineer',
+    description: 'Senior software engineering role',
+    permissions: [
+      'View incidents',
+      'Investigate violations',
+    ]},
   {
     id: 'org_admin',
     name: 'Organization Admin',
@@ -150,6 +172,20 @@ const roles = [
     ],
     userCount: 1200,
     color: 'text-gray-600 bg-gray-50 border-gray-200'
+  },
+  {
+    id: 'test_engineer',
+    name: 'Test Engineer',
+    description: 'Test engineer role',
+    permissions: [
+      'View incidents',
+      'Investigate violations',
+      'Add case notes',
+      'Export incident data',
+      'Dashboard access'
+    ],
+    userCount: 1200,
+    color: 'text-gray-600 bg-gray-50 border-gray-200'
   }
 ];
 
@@ -173,15 +209,15 @@ export function UsersRoles() {
     return roles.find(r => r.id === roleId);
   };
 
-  const getRoleIcon = (roleId: string) => {
-    switch (roleId) {
-      case 'org_admin': return <Crown className="w-4 h-4" />;
-      case 'compliance_admin': return <Shield className="w-4 h-4" />;
-      case 'analyst': return <Eye className="w-4 h-4" />;
-      case 'auditor': return <UserCheck className="w-4 h-4" />;
-      default: return <Users className="w-4 h-4" />;
-    }
-  };
+  // const getRoleIcon = (roleId: string) => {
+  //   switch (roleId) {
+  //     case 'org_admin': return <Crown className="w-4 h-4" />;
+  //     case 'compliance_admin': return <Shield className="w-4 h-4" />;
+  //     case 'analyst': return <Eye className="w-4 h-4" />;
+  //     case 'auditor': return <UserCheck className="w-4 h-4" />;
+  //     default: return <Users className="w-4 h-4" />;
+  //   }
+  // };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -196,14 +232,14 @@ export function UsersRoles() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Users & Roles</h1>
-          <p className="text-gray-600">Manage user access and role-based permissions</p>
+          <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
+          {/* <p className="text-gray-600">Manage user access and role-based permissions</p> */}
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
+          {/* <Button variant="outline">
             <Settings className="w-4 h-4 mr-2" />
             SSO Settings
-          </Button>
+          </Button> */}
           <Button>
             <Plus className="w-4 h-4 mr-2" />
             Invite User
@@ -212,7 +248,7 @@ export function UsersRoles() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -270,14 +306,14 @@ export function UsersRoles() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
+        {/* <TabsList>
           <TabsTrigger value="users">Users</TabsTrigger>
           <TabsTrigger value="roles">Roles & Permissions</TabsTrigger>
           <TabsTrigger value="settings">SSO & Settings</TabsTrigger>
-        </TabsList>
+        </TabsList> */}
 
         <TabsContent value="users" className="space-y-6">
           {/* Filters */}
@@ -311,7 +347,7 @@ export function UsersRoles() {
                   </SelectContent>
                 </Select>
                 
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                {/* <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
@@ -321,7 +357,7 @@ export function UsersRoles() {
                     <SelectItem value="inactive">Inactive</SelectItem>
                     <SelectItem value="suspended">Suspended</SelectItem>
                   </SelectContent>
-                </Select>
+                </Select> */}
                 
                 <Button variant="outline">
                   <Filter className="w-4 h-4 mr-2" />
@@ -346,8 +382,8 @@ export function UsersRoles() {
                     <TableHead>User</TableHead>
                     <TableHead>Role</TableHead>
                     <TableHead>Department</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Last Login</TableHead>
+                    {/* <TableHead>Status</TableHead> */}
+                    <TableHead>Last Incident</TableHead>
                     <TableHead>Violations</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
@@ -375,24 +411,27 @@ export function UsersRoles() {
                           {roleInfo && (
                             <Badge variant="outline" className={roleInfo.color}>
                               <div className="flex items-center space-x-1">
-                                {getRoleIcon(user.role)}
+                                {/* {getRoleIcon(user.role)} */}
                                 <span>{roleInfo.name}</span>
                               </div>
                             </Badge>
                           )}
                         </TableCell>
                         <TableCell>{user.department}</TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <Badge variant="outline" className={getStatusColor(user.status)}>
                             {user.status}
                           </Badge>
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="text-gray-600">
                           {new Date(user.lastLogin).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          <span className={user.violations > 0 ? 'text-red-600' : 'text-gray-500'}>
-                            {user.violations}
+                          <span className={'text-red-600 pr-8'}>
+                            {user.violations.critical}
+                          </span>
+                          <span className={'text-orange-500'}>
+                            {user.violations.low}
                           </span>
                         </TableCell>
                         <TableCell>
@@ -435,7 +474,7 @@ export function UsersRoles() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      {getRoleIcon(role.id)}
+                      {/* {getRoleIcon(role.id)} */}
                       <CardTitle>{role.name}</CardTitle>
                     </div>
                     <Badge variant="outline" className={role.color}>

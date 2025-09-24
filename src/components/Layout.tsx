@@ -30,7 +30,7 @@ const navigation = [
   { name: 'Policies', href: '/policies', icon: FileText },
   { name: 'Policy Packs', href: '/policy-packs', icon: Package },
   { name: 'Connectors', href: '/connectors', icon: LinkIcon },
-  { name: 'Users & Roles', href: '/users', icon: Users },
+  { name: 'Employees', href: '/users', icon: Users },
   { name: 'Reports', href: '/reports', icon: FileOutput },
   { name: 'Settings', href: '/settings', icon: Settings },
   { name: 'Audit Logs', href: '/audit', icon: FileSearch },
