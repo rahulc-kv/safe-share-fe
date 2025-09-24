@@ -16,6 +16,8 @@ import { AuditLogs } from './components/AuditLogs';
 import { HelpFeedback } from './components/HelpFeedback';
 import { Layout } from './components/Layout';
 import { Toaster } from "./components/ui/sonner";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,27 +32,29 @@ function App() {
   // }
 
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/incidents" element={<IncidentsList />} />
-          <Route path="/incidents/:id" element={<IncidentDetail />} />
-          <Route path="/policies" element={<PoliciesList />} />
-          <Route path="/policies/new" element={<PolicyEditor />} />
-          <Route path="/policies/:id" element={<PolicyEditor />} />
-          <Route path="/policy-packs" element={<PolicyPacks />} />
-          <Route path="/connectors" element={<Connectors />} />
-          <Route path="/users" element={<UsersRoles />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/audit" element={<AuditLogs />} />
-          <Route path="/help" element={<HelpFeedback />} />
-        </Routes>
-      </Layout>
-      <Toaster />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/incidents" element={<IncidentsList />} />
+            <Route path="/incidents/:id" element={<IncidentDetail />} />
+            <Route path="/policies" element={<PoliciesList />} />
+            <Route path="/policies/new" element={<PolicyEditor />} />
+            <Route path="/policies/:id" element={<PolicyEditor />} />
+            <Route path="/policy-packs" element={<PolicyPacks />} />
+            <Route path="/connectors" element={<Connectors />} />
+            <Route path="/users" element={<UsersRoles />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/audit" element={<AuditLogs />} />
+            <Route path="/help" element={<HelpFeedback />} />
+          </Routes>
+        </Layout>
+        <Toaster />
+      </Router>
+    </Provider>
   );
 }
 

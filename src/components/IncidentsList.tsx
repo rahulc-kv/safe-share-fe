@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  AlertTriangle, 
-  Filter, 
-  Download, 
-  Search, 
+import {
+  AlertTriangle,
+  Filter,
+  Download,
+  Search,
   Calendar,
   Eye,
   ExternalLink,
@@ -18,6 +18,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import { useGetIncidentsListQuery } from './api/incidentsList.api';
 
 const incidents = [
   {
@@ -94,11 +95,11 @@ export function IncidentsList() {
 
   const filteredIncidents = incidents.filter(incident => {
     const matchesSearch = incident.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         incident.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         incident.violationType.toLowerCase().includes(searchTerm.toLowerCase());
+      incident.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      incident.violationType.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || incident.status === statusFilter;
     const matchesSeverity = severityFilter === 'all' || incident.severity === severityFilter;
-    
+
     return matchesSearch && matchesStatus && matchesSeverity;
   });
 
@@ -119,6 +120,9 @@ export function IncidentsList() {
       default: return <Clock className="w-4 h-4 text-gray-600" />;
     }
   };
+
+  const { data } = useGetIncidentsListQuery();
+console.log(data);
 
   return (
     <div className="space-y-6">
@@ -152,7 +156,7 @@ export function IncidentsList() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -168,7 +172,7 @@ export function IncidentsList() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -182,7 +186,7 @@ export function IncidentsList() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -216,7 +220,7 @@ export function IncidentsList() {
                 />
               </div>
             </div>
-            
+
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Status" />
@@ -228,7 +232,7 @@ export function IncidentsList() {
                 <SelectItem value="resolved">Resolved</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Select value={severityFilter} onValueChange={setSeverityFilter}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Severity" />
@@ -240,7 +244,7 @@ export function IncidentsList() {
                 <SelectItem value="Low">Low</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Button variant="outline">
               <Filter className="w-4 h-4 mr-2" />
               More Filters
@@ -275,7 +279,7 @@ export function IncidentsList() {
               {filteredIncidents.map((incident) => (
                 <TableRow key={incident.id}>
                   <TableCell className="font-medium">
-                    <Link 
+                    <Link
                       to={`/incidents/${incident.id}`}
                       className="text-blue-600 hover:text-blue-800 hover:underline"
                     >
